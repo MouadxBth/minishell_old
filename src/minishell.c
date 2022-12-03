@@ -6,7 +6,7 @@
 /*   By: mbouthai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 03:26:20 by mbouthai          #+#    #+#             */
-/*   Updated: 2022/09/16 05:20:32 by mbouthai         ###   ########.fr       */
+/*   Updated: 2022/11/03 11:18:07 by mbouthai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	t_list	*envs;
+	t_list	*tokens;
+	int	exit;
 	char	*cmd;
 
 	(void) argc;
@@ -22,22 +23,22 @@ int	main(int argc, char **argv, char **env)
 	(void) env;
 	ft_block_signals();
 	ft_configure_termios();
-	envs = NULL;
-	while (1)
+	tokens = NULL;
+	exit = 0;
+	while (!exit)
 	{
 		cmd = readline("minishell$ ");
 		if (!cmd)
 			break ;
-		if (!envs)
-			envs = ft_lstnew(ft_new_env(cmd, cmd));
-		else
-			ft_lstadd_front(&envs, ft_lstnew(ft_new_env(cmd, cmd)));
-		ft_print_envs(envs);
+		if (cmd[0] == '0')
+			exit = 1;
+		tokens = ft_tokenize(cmd);
+		ft_print_tokens(tokens);
+		ft_lstclear(&tokens, ft_free_token);
+
 		add_history(cmd);
-		printf("COMMAND: %s\n", cmd);
 		free(cmd);
 	}
-	ft_lstclear(&envs, ft_free_env);
 	ft_unblock_signals();
 	ft_restore_termios();
 	return (0);
