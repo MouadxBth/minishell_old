@@ -6,7 +6,7 @@
 /*   By: mbouthai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 03:26:02 by mbouthai          #+#    #+#             */
-/*   Updated: 2022/11/09 13:37:50 by mbouthai         ###   ########.fr       */
+/*   Updated: 2022/12/24 14:27:07 by mbouthai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,28 @@
 # define CYAN \u001b[36m
 # define RESET \u001b[0m
  * */
+
+typedef int (*t_predicate)(int);
+
 typedef enum	e_token_type
 {
+	CMDSTART,
+	CMDEND,
+	AND,
+	OR,
 	WORD,
 	SINGLE_QUOTES,
-	DOUBLE_QUOTES
+	DOUBLE_QUOTES,
+	OPEN_PAR,
+	CLOSE_PAR,
+	DOLLAR,
+	IN_REDIRECT,
+	OUT_REDIRECT,
+	IN_APPEND,
+	OUT_APPEND,
+	PIPE,
+	TILDE,
+	NONE
 }	t_token_type;
 
 typedef struct	s_token
@@ -69,6 +86,23 @@ typedef struct	s_node
 	struct s_node	*right;
 }	t_node;
 
+typedef struct	s_element
+{
+	int	value;
+	struct s_element	*next;
+}	t_element;
+
+typedef t_element	*t_stack;
+
+int	ft_push(t_stack *stack, int value);
+int		ft_pop(t_stack *stack);
+int		ft_fill(t_stack *stack, int argc, char **argv);
+int		ft_stack_size(t_stack *stack);
+void	ft_free(t_stack *stack);
+t_element	*ft_fetch(t_stack *stack, int value);
+
+int	ft_validate(char *str);
+
 int	ft_error(char *str, int code);
 
 void	ft_block_signals();
@@ -86,5 +120,11 @@ void	ft_free_token(void *arg);
 void	ft_print_tokens(t_list *head);
 
 t_list	*ft_tokenize(char *str);
+
+/* PREDICATES */
+int	ft_is_space(int c);
+int	ft_sq(int c);
+int	ft_dq(int c);
+int	ft_custom(int c);
 
 #endif

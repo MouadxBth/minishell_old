@@ -6,7 +6,7 @@
 #    By: mbouthai <mbouthai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/20 15:36:27 by mbouthai          #+#    #+#              #
-#    Updated: 2022/11/09 13:56:35 by mbouthai         ###   ########.fr        #
+#    Updated: 2022/12/24 00:32:49 by mbouthai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,11 @@ LFLAGS	:= -fsanitize=address -L./libft -lft -lreadline
 
 INC_FS	:= minishell.h
 
-SRC_FS	:= minishell_terminal.c minishell_signals.c minishell_env.c minishell.c minishell_tokens.c minishell_tokenizers.c
+SRC_FS	:= minishell_terminal.c minishell_signals.c \
+       	minishell_env.c minishell.c \
+	minishell_tokens.c minishell_tokenizer.c \
+	minishell_predicates.c minishell_validator.c \
+	minishell_stack.c
 
 INCS	= $(addprefix $(INC_DIR), $(INC_FS))
 

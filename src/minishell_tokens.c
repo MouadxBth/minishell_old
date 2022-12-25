@@ -6,7 +6,7 @@
 /*   By: mbouthai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 20:22:52 by mbouthai          #+#    #+#             */
-/*   Updated: 2022/10/30 16:34:34 by mbouthai         ###   ########.fr       */
+/*   Updated: 2022/12/24 02:05:53 by mbouthai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ void	ft_print_tokens(t_list	*head)
 	t_token	*token;
 
 	if (!head)
+	{
+		ft_putstr_fd("Invalid Command!\n", 2);
 		return ;
+	}
 	while (head)
 	{
 		token = (t_token *)head->content;
