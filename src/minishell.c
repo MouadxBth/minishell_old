@@ -6,7 +6,7 @@
 /*   By: mbouthai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 03:26:20 by mbouthai          #+#    #+#             */
-/*   Updated: 2022/12/24 02:04:58 by mbouthai         ###   ########.fr       */
+/*   Updated: 2023/01/09 12:58:31 by mbouthai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ int	main(int argc, char **argv, char **env)
 		if (cmd[0] == '0')
 			exit = 1;
 		tokens = ft_tokenize(cmd);
+		if (!ft_analyze(tokens))
+			printf("ANALYSING WENT BAD\n");
+		else
+			printf("ANALYSING WENT GOOD\n");
+
 		ft_print_tokens(tokens);
 		ft_lstclear(&tokens, ft_free_token);
 

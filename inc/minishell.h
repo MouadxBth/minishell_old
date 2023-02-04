@@ -6,7 +6,7 @@
 /*   By: mbouthai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 03:26:02 by mbouthai          #+#    #+#             */
-/*   Updated: 2022/12/24 14:27:07 by mbouthai         ###   ########.fr       */
+/*   Updated: 2022/12/29 20:22:07 by mbouthai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,55 +29,10 @@
 # include <sys/ioctl.h>
 # include "libft.h"
 
-# define RESET "\001\033[0m\002"
-# define GREEN "\001\033[1;32m\002"
-# define RED "\033[0;31m"
-/*
- *
-
-# define RED: \u001b[31m
-# define GREEN \u001b[32m
-# define YELLOW \u001b[33m
-# define BLUE \u001b[34m
-# define MAGENTA \u001b[35m
-# define CYAN \u001b[36m
-# define RESET \u001b[0m
- * */
-
-typedef int (*t_predicate)(int);
-
-typedef enum	e_token_type
-{
-	CMDSTART,
-	CMDEND,
-	AND,
-	OR,
-	WORD,
-	SINGLE_QUOTES,
-	DOUBLE_QUOTES,
-	OPEN_PAR,
-	CLOSE_PAR,
-	DOLLAR,
-	IN_REDIRECT,
-	OUT_REDIRECT,
-	IN_APPEND,
-	OUT_APPEND,
-	PIPE,
-	TILDE,
-	NONE
-}	t_token_type;
-
-typedef struct	s_token
-{
-	t_token_type	type;
-	char		*value;
-}	t_token;
-
-typedef struct	s_env
-{
-	char	*key;
-	char	*value;
-}	t_env;
+# include "minishell_tokenizer.h"
+# include "minishell_colors.h"
+# include "minishell_env.h"
+# include "minishell_stack.h"
 
 typedef struct	s_node
 {
@@ -85,21 +40,6 @@ typedef struct	s_node
 	struct s_node	*left;
 	struct s_node	*right;
 }	t_node;
-
-typedef struct	s_element
-{
-	int	value;
-	struct s_element	*next;
-}	t_element;
-
-typedef t_element	*t_stack;
-
-int	ft_push(t_stack *stack, int value);
-int		ft_pop(t_stack *stack);
-int		ft_fill(t_stack *stack, int argc, char **argv);
-int		ft_stack_size(t_stack *stack);
-void	ft_free(t_stack *stack);
-t_element	*ft_fetch(t_stack *stack, int value);
 
 int	ft_validate(char *str);
 
@@ -110,21 +50,5 @@ void	ft_unblock_signals();
 
 void	ft_configure_termios();
 void	ft_restore_termios();
-
-t_env	*ft_new_env(char *key, char *value);
-void	ft_print_envs(t_list *envs);
-void	ft_free_env(void *env);
-
-t_token	*ft_new_token(t_token_type type, char *value);
-void	ft_free_token(void *arg);
-void	ft_print_tokens(t_list *head);
-
-t_list	*ft_tokenize(char *str);
-
-/* PREDICATES */
-int	ft_is_space(int c);
-int	ft_sq(int c);
-int	ft_dq(int c);
-int	ft_custom(int c);
 
 #endif
